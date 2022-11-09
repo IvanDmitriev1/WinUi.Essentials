@@ -52,9 +52,6 @@ public sealed class TitleBar : ContentControl
         ApplicationEx.MainWindow.SetTitleBar(_appTitlebar);
         ApplicationEx.MainWindow.Activated += MainWindowOnActivated;
 
-        var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-
-
         TitleBarHelper.UpdateTitleBar(RequestedTheme);
 
         if (NavigationView is not null)
