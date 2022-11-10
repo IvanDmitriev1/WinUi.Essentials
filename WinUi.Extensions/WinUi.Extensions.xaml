@@ -3,6 +3,8 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///WinUi.Extensions/Styles/TitleBar.xaml" />
         <ResourceDictionary Source="ms-appx:///WinUi.Extensions/Styles/ThemeSelector.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUi.Extensions/Styles/Button.xaml" />
+        <ResourceDictionary Source="ms-appx:///WinUi.Extensions/Styles/SettingsGroup.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

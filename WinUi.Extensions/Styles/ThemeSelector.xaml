@@ -8,6 +8,7 @@
 
     <ControlTemplate x:Key="ThemeSelectorControlTemplate" TargetType="controls:ThemeSelector">
         <labs:SettingsCard
+            MaxWidth="20000"
             Description="Change app theme"
             Header="App theme"
             HeaderIcon="{toolkit:FontIcon Glyph=&#xE790;}">
