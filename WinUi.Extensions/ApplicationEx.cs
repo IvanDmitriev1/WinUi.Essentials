@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using WinUi.Extensions.Services;
 using WinUIEx;
 
 namespace WinUi.Extensions;
@@ -30,6 +31,7 @@ public abstract class ApplicationEx : Application
         MainWindow.Closed += MainWindowOnClosed;
 
         MainWindow.Activate();
+        ThemeSelectorService.Default.Initialize();
 
         await Host.StartAsync();
     }

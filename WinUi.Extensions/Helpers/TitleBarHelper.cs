@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace WinUi.Extensions.Helpers;
 
-public sealed class TitleBarHelper
+public static class TitleBarHelper
 {
     private const int WAINACTIVE = 0x00;
     private const int WAACTIVE = 0x01;

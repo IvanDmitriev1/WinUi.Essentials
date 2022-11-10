@@ -7,11 +7,12 @@
     <UseWinUI>true</UseWinUI>
 	  <Nullable>enable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Vertion>1.0.2</Vertion>
+	  <Vertion>0.0.2</Vertion>
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Diagnostics" Version="8.0.0" />
+		<PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.8" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.5" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
