@@ -32,6 +32,11 @@ public sealed class SettingsGroup : ItemsControl
         set => SetValue(DescriptionProperty, value);
     }
 
+    public SettingsGroup()
+    {
+        this.DefaultStyleKey = typeof(SettingsGroup);
+    }
+
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();

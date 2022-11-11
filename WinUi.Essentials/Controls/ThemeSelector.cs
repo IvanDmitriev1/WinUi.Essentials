@@ -7,6 +7,8 @@ public sealed class ThemeSelector : Control
 {
     public ThemeSelector()
     {
+        this.DefaultStyleKey = typeof(ThemeSelector);
+
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
     }
