@@ -1,4 +1,4 @@
-namespace Demo;
+namespace WinUi.Essentials.Demo;
 
 public sealed partial class AppShell : Page
 {

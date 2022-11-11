@@ -1,4 +1,4 @@
-namespace Demo.Views;
+namespace WinUi.Essentials.Demo.Views;
 
 public sealed partial class SettingsPage : Page
 {

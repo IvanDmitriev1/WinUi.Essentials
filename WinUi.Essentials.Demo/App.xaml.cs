@@ -2,7 +2,7 @@ using Microsoft.Extensions.Hosting;
 using WinUi.Extensions;
 using WinUi.Extensions.Services;
 
-namespace Demo;
+namespace WinUi.Essentials.Demo;
 
 public partial class App : ApplicationEx
 {

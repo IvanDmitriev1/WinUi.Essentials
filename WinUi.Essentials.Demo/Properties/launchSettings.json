@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "Demo (Package)": {
+    "WinUi.Essentials.Demo (Package)": {
       "commandName": "MsixPackage"
     },
-    "Demo (Unpackaged)": {
+    "WinUi.Essentials.Demo (Unpackaged)": {
       "commandName": "Project"
     }
   }
