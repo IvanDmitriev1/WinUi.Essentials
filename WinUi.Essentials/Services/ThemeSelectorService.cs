@@ -9,7 +9,7 @@ public sealed class ThemeSelectorService : IThemeSelectorService
 
     public ThemeSelectorService()
     {
-        var value = _localSettingsService.ReadSetting(SettingsKey);
+        var value = _localSettingsService.ReadSetting(SettingsKey, ElementTheme.Default.ToString());
         CurrentTheme = Enum.TryParse<ElementTheme>(value, out var themeValue) ? themeValue : ElementTheme.Default;
     }
 

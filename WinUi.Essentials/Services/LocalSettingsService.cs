@@ -43,14 +43,14 @@ public sealed class UnpackagedLocalSettingsService : ILocalSettingsService
     private readonly IFileService _fileService;
     private readonly Dictionary<string, string> _settings;
 
-    public string? ReadSetting(string key)
+    public string ReadSetting(string key, string defaultValue)
     {
         if (_settings.TryGetValue(key, out var obj))
         {
             return obj;
         }
 
-        return default;
+        return defaultValue;
     }
 
     public void SaveSetting(string key, string value)
@@ -70,14 +70,14 @@ public sealed class UnpackagedLocalSettingsService : ILocalSettingsService
 
 public sealed class PackagedLocalSettingsService : ILocalSettingsService
 {
-    public string? ReadSetting(string key)
+    public string ReadSetting(string key, string defaultValue)
     {
         if (ApplicationData.Current.LocalSettings.Values.TryGetValue(key, out var obj))
         {
-            return JsonSerializer.Deserialize<string>((string)obj);
+            return JsonSerializer.Deserialize<string>((string)obj) ?? defaultValue;
         }
 
-        return default;
+        return defaultValue;
     }
 
     public void SaveSetting(string key, string value)
