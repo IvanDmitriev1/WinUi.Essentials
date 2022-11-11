@@ -7,7 +7,7 @@
     <UseWinUI>true</UseWinUI>
 	  <Nullable>enable</Nullable>
 	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Version>0.0.3</Version>
+	  <Version>0.0.4</Version>
   </PropertyGroup>
 
 	<ItemGroup>
