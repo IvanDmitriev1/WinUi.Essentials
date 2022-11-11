@@ -33,7 +33,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WinUi.Extensions\WinUi.Extensions.csproj" />
+    <ProjectReference Include="..\WinUi.Essentials\WinUi.Essentials.csproj" />
   </ItemGroup>
 
   <!-- 

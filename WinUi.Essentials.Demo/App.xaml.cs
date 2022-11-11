@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Hosting;
-using WinUi.Extensions;
-using WinUi.Extensions.Services;
+using WinUi.Essentials.Services;
 
 namespace WinUi.Essentials.Demo;
 
