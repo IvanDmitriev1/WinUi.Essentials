@@ -1,6 +1,8 @@
-﻿namespace WinUi.Essentials.Extensions;
+﻿using WinUi.Essentials.Controls.Navigation;
+
+namespace WinUi.Essentials.Extensions;
 
 public static class FrameExtensions
 {
-    public static Page? GetContentAsPage(this Frame frame) => frame.Content as Page;
+    public static NavigationPage? GetContentAsPage(this Frame frame) => frame.Content as NavigationPage;
 }

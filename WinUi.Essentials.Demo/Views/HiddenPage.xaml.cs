@@ -1,14 +1,14 @@
 namespace WinUi.Essentials.Demo.Views;
 
-public sealed partial class BlankPage1
+public sealed partial class HiddenPage
 {
-    public BlankPage1()
+    public HiddenPage()
     {
         this.InitializeComponent();
     }
 
     private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
     {
-        Navigation.Current!.NavigateTo(nameof(HiddenPage));
+        Navigation.Current!.NavigateTo(nameof(BlankPage2));
     }
 }

@@ -40,10 +40,13 @@ public sealed partial class NavigationViewEx : NavigationView, INavigation
     private readonly ObservableCollection<BreadcrumbBarItem> _breadcrumbBarItems = new();
 
     private Type _currentNavigationViewItemType = typeof(NavigationViewEx);
+    private bool _interceptNavigationFromUser = false;
+    private NavigationViewItem? _previousSelectedItem;
 
     public NavigationViewEx()
     {
         Loaded += OnLoaded;
+        SelectionChanged += OnSelectionChanged;
         ItemInvoked += OnItemInvoked;
         BackRequested += OnBackRequested;
         Unloaded += OnUnloaded;
@@ -52,6 +55,7 @@ public sealed partial class NavigationViewEx : NavigationView, INavigation
     public void RegisterPage<TPage>(string tag) where TPage : Page
     {
         var type = typeof(TPage);
+        Guard.IsTrue(type.IsAssignableTo(typeof(NavigationPage)));
 
         _tagToPageTypeDictionary.TryAdd(tag, type);
         _pageTypeToTagDictionary.TryAdd(type, tag);
@@ -68,7 +72,10 @@ public sealed partial class NavigationViewEx : NavigationView, INavigation
                 continue;
 
             Guard.IsNotNull(navigationViewItem.NavigateToType);
-            Guard.IsNotNullOrEmpty(navigationViewItem.Tag);
+            Guard.IsTrue(navigationViewItem.NavigateToType.IsAssignableTo(typeof(NavigationPage)));
+
+            if (string.IsNullOrEmpty(navigationViewItem.Tag))
+                navigationViewItem.Tag = navigationViewItem.NavigateToType.Name;
 
             _tagToPageTypeDictionary.TryAdd(navigationViewItem.Tag, navigationViewItem.NavigateToType);
             _pageTypeToNavigationViewItemsDictionary.TryAdd(navigationViewItem.NavigateToType, navigationViewItem);
@@ -115,9 +122,19 @@ public sealed partial class NavigationViewEx : NavigationView, INavigation
     private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         Loaded -= OnLoaded;
-        Frame.Navigated -= FrameOnNavigated;
+        SelectionChanged -= OnSelectionChanged;
+        ItemInvoked -= OnItemInvoked;
         BackRequested -= OnBackRequested;
-        _breadcrumbBar.ItemClicked -= BreadcrumbBarOnItemClicked;
         Unloaded -= OnUnloaded;
+
+        Frame.Navigated -= FrameOnNavigated;
+        _breadcrumbBar.ItemClicked -= BreadcrumbBarOnItemClicked;
+
+        _tagToPageTypeDictionary.Clear();
+        _pageTypeToTagDictionary.Clear();
+        _pageTypeToNavigationViewItemsDictionary.Clear();
+        _breadcrumbBarItems.Clear();
+
+        _previousSelectedItem = null;
     }
 }

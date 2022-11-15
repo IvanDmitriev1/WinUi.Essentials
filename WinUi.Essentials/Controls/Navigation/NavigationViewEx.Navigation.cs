@@ -8,6 +8,9 @@ public sealed partial class NavigationViewEx
 {
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
+        if (_interceptNavigationFromUser)
+            return;
+
         if (args.IsSettingsInvoked)
         {
             NavigateTo((string)((NavigationViewItem)SelectedItem).Content);
@@ -19,15 +22,23 @@ public sealed partial class NavigationViewEx
         }
     }
 
+    private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+    {
+        if (_interceptNavigationFromUser)
+        {
+            SelectedItem = _previousSelectedItem;
+        }
+    }
+
     public bool GoBack()
     {
-        IsBackEnabled = Frame!.CanGoBack;
+        IsBackEnabled = Frame.CanGoBack;
 
         if (!Frame.CanGoBack)
             return false;
 
         Frame.GoBack();
-        SetMainComponents(Frame.SourcePageType);
+        SetMainComponents(Frame.SourcePageType, Frame.GetContentAsPage()!);
 
         return true;
     }
@@ -41,43 +52,59 @@ public sealed partial class NavigationViewEx
             return false;
 
         var vmBeforeNavigation = Frame.GetContentAsPage()?.GetViewModel();
-        var navigated = Frame.Navigate(navigateToType);
+        Frame.Navigate(navigateToType, null);
 
-        if (navigated && vmBeforeNavigation is INavigationAware navigationAware)
+        if (_interceptNavigationFromUser)
+        {
+            var backStackItem = Frame.BackStack[^1];
+            Frame.BackStack.Remove(backStackItem);
+        }
+
+        if (vmBeforeNavigation is INavigationAware navigationAware)
             navigationAware.OnNavigatedFrom();
 
-        SetMainComponents(navigateToType);
-        return navigated;
+        SetMainComponents(navigateToType, Frame.GetContentAsPage()!);
+        return true;
     }
 
     private void FrameOnNavigated(object sender, NavigationEventArgs e)
     {
-        var page = Frame.GetContentAsPage();
+        var page = Frame.GetContentAsPage()!;
 
-        if (page?.GetViewModel() is INavigationAware navigationAware)
-        {
+        if (page.GetViewModel() is INavigationAware navigationAware)
             navigationAware.OnNavigatedTo();
-        }
 
         SetHeader(page, e);
-
         Navigated?.Invoke(this, e);
     }
 
-    private void SetMainComponents(Type type)
+    private void SetMainComponents(Type type, NavigationPage page)
     {
+        _interceptNavigationFromUser = page.InterceptNavigationFromUser switch
+        {
+            false when _interceptNavigationFromUser => false,
+            true => true,
+            _ => _interceptNavigationFromUser
+        };
+
         _currentNavigationViewItemType = type;
-        IsBackEnabled = Frame.CanGoBack;
+        IsBackEnabled = !_interceptNavigationFromUser && Frame.CanGoBack;
 
         if (_pageTypeToNavigationViewItemsDictionary.TryGetValue(type, out var navigationViewItem))
         {
             SelectedItem = navigationViewItem;
+            _previousSelectedItem = navigationViewItem;
         }
     }
 
     private void SetHeader(Page? page, NavigationEventArgs e)
     {
-        if (page?.GetHeaderMode() != NavigationViewExHeaderMode.Always)
+        if (page is null)
+            return;
+
+        var navigationPage = (NavigationPage)page!;
+
+        if (navigationPage.HeaderMode != NavigationViewExHeaderMode.Always)
         {
             Header = null;
             return;
@@ -90,7 +117,7 @@ public sealed partial class NavigationViewEx
         {
             headerString = (string)navigationViewItem.Content;
         }
-        else if (page.GetCustomHeader() is { } customHeader)
+        else if (navigationPage.CustomHeader is { } customHeader)
         {
             headerString = customHeader;
         }
@@ -102,13 +129,24 @@ public sealed partial class NavigationViewEx
         else
         {
             _breadcrumbBarItems.Clear();
-            _breadcrumbBarItems.Add(new BreadcrumbBarItem(headerString,
-                (string)_pageTypeToNavigationViewItemsDictionary[e.SourcePageType].Tag));
+
+            var item = _pageTypeToNavigationViewItemsDictionary[e.SourcePageType];
+            string itemTag;
+
+            if (item is NavigationViewItemEx itemEx)
+                itemTag = itemEx.Tag;
+            else
+                itemTag = (string)item.Tag;
+
+            _breadcrumbBarItems.Add(new BreadcrumbBarItem(headerString, itemTag));
         }
     }
 
     private void BreadcrumbBarOnItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
     {
+        if (_interceptNavigationFromUser)
+            return;
+
         var breadcrumbBarItem = (BreadcrumbBarItem)args.Item;
         NavigateTo(breadcrumbBarItem.PageTag);
     }
