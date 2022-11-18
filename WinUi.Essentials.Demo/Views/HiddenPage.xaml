@@ -8,6 +8,8 @@
     xmlns:navigation="using:WinUi.Essentials.Controls.Navigation"
     CustomHeader="Hidden page"
     InterceptNavigationFromUser="True"
+    Navigated="HiddenPage_OnNavigated"
+    Unloaded="HiddenPage_OnUnloaded"
     mc:Ignorable="d">
 
     <Grid>

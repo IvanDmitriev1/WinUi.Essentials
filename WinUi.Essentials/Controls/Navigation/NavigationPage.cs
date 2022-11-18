@@ -41,4 +41,11 @@ public class NavigationPage : Page
         get => (bool)GetValue(RemoveFromHistoryProperty);
         set => SetValue(RemoveFromHistoryProperty, value);
     }
+
+    public event EventHandler? Navigated;
+
+    internal void OnNavigated()
+    {
+        Navigated?.Invoke(this, EventArgs.Empty);
+    }
 }

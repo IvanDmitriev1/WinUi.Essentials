@@ -70,6 +70,7 @@ public sealed partial class NavigationViewEx
     private void FrameOnNavigated(object sender, NavigationEventArgs e)
     {
         var page = Frame.GetContentAsPage()!;
+        page.OnNavigated();
 
         if (page.GetViewModel() is INavigationAware navigationAware)
             navigationAware.OnNavigatedTo();
