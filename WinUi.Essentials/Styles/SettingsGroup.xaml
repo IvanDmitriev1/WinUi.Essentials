@@ -1,8 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WinUi.Extensions.Styles"
-    xmlns:controls="using:WinUi.Essentials.Controls">
+    xmlns:controls="using:WinUi.Essentials.Controls"
+    xmlns:local="using:WinUi.Extensions.Styles">
 
     <ControlTemplate x:Key="SettingsGroupControlTemplate" TargetType="controls:SettingsGroup">
         <Grid HorizontalAlignment="Stretch">
@@ -11,6 +11,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
             <TextBlock
                 x:Name="HeaderPresenter"
                 Grid.Row="0"
