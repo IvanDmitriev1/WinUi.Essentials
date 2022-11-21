@@ -29,4 +29,9 @@ public partial class App : ApplicationEx
     {
         return new AppShell();
     }
+
+    protected override void AfterLaunch()
+    {
+        MainWindow.Title = "WinUi.Essentials.Demo";
+    }
 }

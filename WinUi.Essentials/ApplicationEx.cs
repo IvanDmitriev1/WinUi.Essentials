@@ -33,8 +33,11 @@ public abstract class ApplicationEx : Application
         MainWindow.Activate();
         ThemeSelectorService.Default.Initialize();
 
+        AfterLaunch();
         await Host.StartAsync();
     }
+
+    protected abstract void AfterLaunch();
 
     private static async void MainWindowOnClosed(object sender, WindowEventArgs args)
     {
